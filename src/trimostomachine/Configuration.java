@@ -111,23 +111,23 @@ public class Configuration {
         return initialPath;
     }
 
-    private Dialog<SettingsDialogData> buildSettingsDialog(SettingsDialogData currentData) {
+    private Dialog<SettingsDialogData> buildSettingsDialog(SettingsDialogData currentDialogData) {
         Dialog<SettingsDialogData> settingsDialog = new Dialog<>();
         settingsDialog.setTitle("Inställningar");
-        Label label1 = new Label("Serieport:");
-        Label label2 = new Label("Startkatalog:");
+        Label serialPortLabel = new Label("Serieport:");
+        Label startDirLabel = new Label("Startkatalog:");
         List<String> portList = SerialCommHandler.getAvailablePorts();
         ChoiceBox<String> cbCommPort = new ChoiceBox<>();
         cbCommPort.setItems(FXCollections.observableList(portList));
-        cbCommPort.getSelectionModel().select(currentData.commPort);
-        TextField tfDefaultPath = new TextField(currentData.initialPath);
+        cbCommPort.getSelectionModel().select(currentDialogData.commPort);
+        TextField tfDefaultPath = new TextField(currentDialogData.initialPath);
         tfDefaultPath.setPrefWidth(300);
         
         GridPane gridPane = new GridPane();
-        gridPane.add(label1, 0, 0);
-        GridPane.setHalignment(label1, HPos.RIGHT);
-        gridPane.add(label2, 0, 1);
-        GridPane.setHalignment(label2, HPos.RIGHT);
+        gridPane.add(serialPortLabel, 0, 0);
+        GridPane.setHalignment(serialPortLabel, HPos.RIGHT);
+        gridPane.add(startDirLabel, 0, 1);
+        GridPane.setHalignment(startDirLabel, HPos.RIGHT);
         gridPane.add(cbCommPort, 1, 0);
         gridPane.add(tfDefaultPath, 1, 1);
         gridPane.setPadding(new Insets(30));
