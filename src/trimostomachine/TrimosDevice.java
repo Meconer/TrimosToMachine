@@ -20,6 +20,8 @@ package trimostomachine;
 
 import com.google.common.eventbus.EventBus;
 import static java.lang.Thread.sleep;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 
 /**
@@ -48,11 +50,11 @@ public class TrimosDevice {
     }
 
     private static final int LOOP_TIME = 500;
-
     private volatile boolean messageReceiverTaskStopped = false;
-
     private MessageReceiverTask messageReceiverTask;
     private boolean stopMessageReceiverTask;
+    private double latestXValue = 0;
+    private double latestZValue = 0;
 
     private void initMessageReceiverTask() {
         messageReceiverTask = new MessageReceiverTask();
@@ -69,7 +71,6 @@ public class TrimosDevice {
             String previousMessage = null;
             while (!stopMessageReceiverTask) {
                 String message = serialCommHandler.getMessageFromReceiveQueue();
-                eventBus.post( new TrimosMessageEvent(message));
 
                 if (message != null) {
                         checkMessage(message);
@@ -87,13 +88,41 @@ public class TrimosDevice {
 
         private void checkMessage(String message) {
             System.out.println("CheckMessage :" + message);
-            sendMessageToGui(message);
+            latestXValue = getXFromMessage(message);
+            latestZValue = getZFromMessage(message);
+            System.out.println("xVal : " + latestXValue);
+            System.out.println("zVal : " + latestZValue);
+            sendMessageToGui(new PositionMessage(latestXValue, latestZValue));
         }
 
-        private void sendMessageToGui(String message) {
+        private void sendMessageToGui(PositionMessage message) {
             Platform.runLater(() -> {
-                eventBus.post(new String(message));
+                eventBus.post(message);
             });
+        }
+
+        private double getXFromMessage(String message) {
+            double xValue = -999.999;
+            
+            Pattern xPattern = Pattern.compile("Xr +([-|\\+]*\\d+.\\d+)");
+            Matcher m = xPattern.matcher(message);
+            if ( m.find()) {
+                String xString = m.group(1);
+                xValue = Double.parseDouble(xString);
+            }
+            return xValue;
+        }
+
+        private double getZFromMessage(String message) {
+            double zValue = -999.999;
+            
+            Pattern zPattern = Pattern.compile("Zr +([-|\\+]*\\d+.\\d+)");
+            Matcher m = zPattern.matcher(message);
+            if ( m.find()) {
+                String zString = m.group(1);
+                zValue = Double.parseDouble(zString);
+            }
+            return zValue;
         }
 
     }

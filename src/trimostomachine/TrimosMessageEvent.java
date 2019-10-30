@@ -29,7 +29,7 @@ public class TrimosMessageEvent {
         this.message = message;
     }
 
-    public String getStatusMessage() {
+    public String getToolMessage() {
         return message;
     }
 
