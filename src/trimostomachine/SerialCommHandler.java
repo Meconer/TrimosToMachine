@@ -41,6 +41,7 @@ public class SerialCommHandler implements SerialPortEventListener {
     private final int SIZE_OF_RECEIVE_BUFFER = 500;
     private int numBytesInBuffer = 0;
 
+    private final byte TRANSFER_READY_CHAR = 12;
     private final byte ETB_CHAR = 23;
     private final byte EOF_CHAR = 27;
     private static final int LF_CHAR = 10;
@@ -148,25 +149,13 @@ public class SerialCommHandler implements SerialPortEventListener {
                 while (serialPort.getInputBufferBytesCount() > 0) {
                     byte readByte = serialPort.readBytes(1)[0];
 
-                    // etb received. Convert the buffer to a string and put it in the answer queue.
-                    if (readByte == ETB_CHAR) {
+                    // End of linr. Convert the buffer to a string and put it in the answer queue.
+                    if (readByte == LF_CHAR) {
                         if (numBytesInBuffer > 0) {
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < numBytesInBuffer; i++) {
                                 byte rb = receiveBuffer[i];
-                                switch (rb) {
-                                    case EOF_CHAR:
-                                        break;
-                                    case CR_CHAR:
-                                        break;
-                                    case LF_CHAR:
-                                        break;
-                                    case ETB_CHAR:
-                                        break;
-                                    default:
-                                        sb.append((char) receiveBuffer[i]);
-                                        break;
-                                }
+                                sb.append((char) receiveBuffer[i]);
                             }
                             messageQueue.add(sb.toString());
                             numBytesInBuffer = 0;

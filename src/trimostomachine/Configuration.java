@@ -48,7 +48,7 @@ public class Configuration {
     private final String INITIAL_PATH_KEY = "InitialPath";
     
     private final String COMM_BAUDRATE_KEY = "CommBaudRate";
-    private final int DEFAULT_COMM_BAUDRATE = SerialPort.BAUDRATE_4800;
+    private final int DEFAULT_COMM_BAUDRATE = SerialPort.BAUDRATE_9600;
     private final String COMM_DATABITS_KEY = "CommDataBits";
     private final int DEFAULT_COMM_DATABITS = SerialPort.DATABITS_8;
     private final String COMM_STOPBITS_KEY = "CommStopBits";

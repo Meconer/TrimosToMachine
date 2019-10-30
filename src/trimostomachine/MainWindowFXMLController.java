@@ -5,8 +5,11 @@
  */
 package trimostomachine;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -18,8 +21,12 @@ import javafx.scene.control.TextArea;
  */
 public class MainWindowFXMLController implements Initializable {
     
+    private final EventBus eventBus = ProjectEventBus.getInstance();
+
+    
     @FXML
     private TextArea fromTrimosTextArea;
+    private TrimosDevice trimosDevice;
     
     @FXML
     private void onMenuSettingsClicked() {
@@ -35,10 +42,25 @@ public class MainWindowFXMLController implements Initializable {
     }
 
 
+    @Subscribe
+    private void handleTrimosMessageEvent( TrimosMessageEvent trimosMEvent ) {
+        Platform.runLater( () -> {
+            String message = trimosMEvent.getStatusMessage();
+            if ( message!=null ) {
+                fromTrimosTextArea.setText(trimosMEvent.getStatusMessage());
+            }
+        });
+    }
+
         
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        eventBus.register(this);
     }    
+
+    void setTrimosDevice(TrimosDevice trimosDevice) {
+        this.trimosDevice = trimosDevice;
+    }
     
 }
