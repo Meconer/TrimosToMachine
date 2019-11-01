@@ -147,10 +147,10 @@ public class MainWindowFXMLController implements Initializable {
     }
 
     private String getFanucToolText(double xVal, double zVal) {
-        String toolText = "G10 L" + fanucToolNo + 
+        String toolText = "G10 L10 P" + fanucToolNo + 
                 " R" + zLabel.getText() + "\n";
         if ( fanucUseRadiusCheckBox.isSelected() ) {
-            toolText += "G10 L" + (fanucToolNo + 20);
+            toolText += "G10 L10 P" + (fanucToolNo + 20);
             if ( fanucSetRadiusToZeroCheckBox.isSelected() ) {
                 toolText += " R0\n";
             } else {

@@ -150,7 +150,7 @@ public class SerialCommHandler implements SerialPortEventListener {
                     byte readByte = serialPort.readBytes(1)[0];
 
                     // End of linr. Convert the buffer to a string and put it in the answer queue.
-                    if (readByte == LF_CHAR) {
+                    if (readByte == TRANSFER_READY_CHAR) {
                         if (numBytesInBuffer > 0) {
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < numBytesInBuffer; i++) {
