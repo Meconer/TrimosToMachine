@@ -48,6 +48,12 @@ public class MainWindowFXMLController implements Initializable {
     @FXML
     private Tab fanucMachineTab;
 
+    @FXML
+    private TextField fanucExtraLengthOffset;
+
+    @FXML
+    private TextField fanucExtraRadiusOffset;
+
     private final EventBus eventBus = ProjectEventBus.getInstance();
     private TrimosDevice trimosDevice;
     private int fanucToolNo = 1;
@@ -119,6 +125,43 @@ public class MainWindowFXMLController implements Initializable {
         }
     }
 
+    @FXML
+    void clearTextArea() {
+        toolFileTextArea.clear();
+    }
+
+    @FXML
+    void removeLastReadLine() {
+        toolFileTextArea.setText( removeLastLine(toolFileTextArea.getText()));
+    }
+
+    // Remove the last line from a string with lines delimited with \n and
+    // a \n as the last character.
+    private String removeLastLine(String textArea) {
+        // First remove the last endline
+        // Get the pos.
+        int lastEndLinePos = textArea.lastIndexOf('\n');
+        // Check that it exists.
+        if (lastEndLinePos > 0) {
+            textArea = textArea.substring(0, lastEndLinePos);
+
+            // Now remove the text from the last endLine to the end.
+            lastEndLinePos = textArea.lastIndexOf('\n');
+            if (lastEndLinePos > 0) {
+                textArea = textArea.substring(0, lastEndLinePos);
+            } else {
+                // No more endlines. Must be the first line so we empty the
+                // textArea
+                return "";
+            }
+
+            // And put a \n in at the end so everything is as it should be.
+            textArea += '\n';
+
+        }
+        return textArea;
+    }
+
     @Subscribe
     private void handlePositionMessage(PositionMessage message) {
 
@@ -127,13 +170,25 @@ public class MainWindowFXMLController implements Initializable {
             zLabel.setText(String.format("%.3f", message.getZVal()));
             switch (selectedTab) {
                 case FANUC: {
-                    toolFileTextArea.appendText(getFanucToolText(message.getXVal(), message.getZVal()));
-                    setFanucToolNo( fanucToolNo + 1 );
+                    double zVal = message.getZVal();
+                    zVal += getFanucExtraLengthOffset();
+                    toolFileTextArea.appendText(getFanucToolText(message.getXVal(), zVal));
+                    setFanucToolNo(fanucToolNo + 1);
                     break;
                 }
                 default:
                     break;
             }
+        }
+    }
+
+    private double getFanucExtraLengthOffset() {
+        String stringValue = fanucExtraLengthOffset.getText();
+        stringValue = stringValue.replaceAll(",", ".");
+        try {
+            return Double.parseDouble(stringValue);
+        } catch (Exception e) {
+            return -99999.0;
         }
     }
 
@@ -147,20 +202,20 @@ public class MainWindowFXMLController implements Initializable {
     }
 
     private String getFanucToolText(double xVal, double zVal) {
-        String toolText = "G10 L10 P" + fanucToolNo + 
-                " R" + zLabel.getText() + "\n";
-        if ( fanucUseRadiusCheckBox.isSelected() ) {
+        String toolText = "G10 L10 P" + fanucToolNo
+                + " R" + String.format("%.3f", zVal) + "\n";
+        if (fanucUseRadiusCheckBox.isSelected()) {
             toolText += "G10 L10 P" + (fanucToolNo + 20);
-            if ( fanucSetRadiusToZeroCheckBox.isSelected() ) {
+            if (fanucSetRadiusToZeroCheckBox.isSelected()) {
                 toolText += " R0\n";
             } else {
-                toolText += " R" + xLabel.getText() + "\n";
+                toolText += " R" + String.format("%.3f", xVal) + "\n";
             }
         }
         return toolText;
     }
 
-    private void setFanucToolNo(int toolNo ) {
+    private void setFanucToolNo(int toolNo) {
         fanucToolNo = toolNo;
         fanucToolNoTextField.setText(Integer.toString(fanucToolNo));
     }
