@@ -7,7 +7,15 @@ package trimostomachine;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,6 +28,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -134,6 +143,34 @@ public class MainWindowFXMLController implements Initializable {
     void removeLastReadLine() {
         toolFileTextArea.setText( removeLastLine(toolFileTextArea.getText()));
     }
+    
+    // Save the text area to a file that the user selects.
+    @FXML
+    private void saveFileAction() {
+        // Use a file chooser dialog.
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(Configuration.getConfiguration().getInitialDirectoryName()));
+        fc.setTitle("Spara till fil");
+        
+        File fileToSave = fc.showSaveDialog(null);
+        if ( fileToSave != null ) {
+            // User wants the file saved 
+            Path path = Paths.get(fileToSave.getAbsolutePath());
+            try {
+                // Do the save.
+                BufferedWriter bw = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+                String[] lines = toolFileTextArea.getText().split("\n");
+                for (String line : lines) {
+                    bw.write(line + "\r\n");
+                }
+                bw.close();
+            } catch (IOException ex) {
+                Utils.showError( "Kunde inte spara offsetfilen. " + ex.getMessage());
+            }
+        }
+    }
+
+
 
     // Remove the last line from a string with lines delimited with \n and
     // a \n as the last character.
