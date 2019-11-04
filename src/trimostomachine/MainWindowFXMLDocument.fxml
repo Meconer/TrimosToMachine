@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="492.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trimostomachine.MainWindowFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trimostomachine.MainWindowFXMLController">
    <children>
-      <MenuBar prefHeight="25.0" prefWidth="980.0">
+      <MenuBar prefHeight="25.0" prefWidth="780.0">
         <menus>
           <Menu mnemonicParsing="false" text="Arkiv">
             <items>
@@ -38,8 +38,11 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TextArea fx:id="toolFileTextArea" layoutX="611.0" layoutY="49.0" prefHeight="267.0" prefWidth="314.0" />
-      <TabPane fx:id="machineTabPane" layoutX="191.0" layoutY="49.0" prefHeight="401.0" prefWidth="408.0" tabClosingPolicy="UNAVAILABLE">
+      <TextArea fx:id="toolFileTextArea" layoutX="543.0" layoutY="49.0" prefHeight="267.0" prefWidth="213.0">
+         <font>
+            <Font name="Monospaced Regular" size="10.0" />
+         </font></TextArea>
+      <TabPane fx:id="machineTabPane" layoutX="191.0" layoutY="49.0" prefHeight="401.0" prefWidth="330.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="fanucMachineTab" onSelectionChanged="#machineTabChanged" text="Fanuc">
             <content>
@@ -51,35 +54,35 @@
                               <HBox spacing="10.0">
                                  <children>
                                     <TextField fx:id="fanucToolNoTextField" promptText="1" />
-                                    <Button fx:id="fanucSetToOneButton" mnemonicParsing="false" onAction="#fanucSetToOneButtonClicked" prefHeight="25.0" prefWidth="117.0" text="Sätt till 1" />
+                                    <Button fx:id="fanucSetToOneButton" mnemonicParsing="false" onAction="#fanucSetToOneButtonClicked" prefHeight="25.0" prefWidth="91.0" text="Sätt till 1" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox prefHeight="25.0" prefWidth="156.0" spacing="90.0">
+                              <HBox prefHeight="25.0" prefWidth="156.0" spacing="70.0">
                                  <children>
-                                    <Button fx:id="fanucIncToolNoButton" mnemonicParsing="false" onAction="#fanucIncToolNo" prefWidth="30.0" text="+">
+                                    <Button fx:id="fanucIncToolNoButton" mnemonicParsing="false" onAction="#fanucIncToolNo" prefHeight="25.0" prefWidth="39.0" text="+">
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="fanucDecToolNoButton" mnemonicParsing="false" onAction="#fanucDecToolNo" prefHeight="25.0" prefWidth="30.0" text="-" />
+                                    <Button fx:id="fanucDecToolNoButton" mnemonicParsing="false" onAction="#fanucDecToolNo" prefHeight="25.0" prefWidth="39.0" text="-" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                         <VBox layoutX="18.0" layoutY="112.0" spacing="10.0">
                            <children>
-                              <CheckBox fx:id="fanucUseRadiusCheckBox" mnemonicParsing="false" onAction="#useRadiusCheckBoxChanged" text="Använd radien" />
+                              <CheckBox fx:id="fanucUseRadiusCheckBox" mnemonicParsing="false" onAction="#fanucUseRadiusCheckBoxChanged" text="Använd radien" />
                               <CheckBox fx:id="fanucSetRadiusToZeroCheckBox" disable="true" mnemonicParsing="false" text="Sätt radien till 0" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
-                        <Button layoutX="194.0" layoutY="108.0" mnemonicParsing="false" onAction="#fanucAddStartSection" prefHeight="25.0" prefWidth="188.0" text="Start" />
-                        <Button layoutX="194.0" layoutY="156.0" mnemonicParsing="false" onAction="#fanucAddEndSection" prefHeight="25.0" prefWidth="188.0" text="Avslutning" />
+                        <Button layoutX="194.0" layoutY="108.0" mnemonicParsing="false" onAction="#fanucAddStartSection" prefHeight="25.0" prefWidth="92.0" text="Start" />
+                        <Button layoutX="194.0" layoutY="156.0" mnemonicParsing="false" onAction="#fanucAddEndSection" prefHeight="25.0" prefWidth="92.0" text="Avslutning" />
                         <VBox layoutX="14.0" layoutY="199.0">
                            <children>
                               <Label text="Extra längdoffset" />
@@ -95,11 +98,114 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Untitled Tab 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
+            <Tab fx:id="millPlusMachineTab" onSelectionChanged="#machineTabChanged" text="Millplus">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="387.0" prefWidth="408.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="93.0" text="Verktygsnr" />
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="millPlusToolNoTextField" promptText="1" />
+                                    <Button mnemonicParsing="false" onAction="#millPlusSetToOneButtonClicked" prefHeight="25.0" prefWidth="83.0" text="Sätt till 1" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox prefHeight="25.0" prefWidth="156.0" spacing="70.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#millPlusIncToolNo" prefWidth="39.0" text="+">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#millPlusDecToolNo" prefHeight="25.0" prefWidth="39.0" text="-" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="18.0" layoutY="112.0" spacing="10.0">
+                           <children>
+                              <CheckBox fx:id="millPlusUseRadiusCheckBox" mnemonicParsing="false" onAction="#millPlusUseRadiusCheckBoxChanged" text="Använd radien" />
+                              <CheckBox fx:id="millPlusSetRadiusToZeroCheckBox" disable="true" mnemonicParsing="false" text="Sätt radien till 0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <Button layoutX="194.0" layoutY="108.0" mnemonicParsing="false" onAction="#millPlusAddStartSection" prefHeight="25.0" prefWidth="92.0" text="Start" />
+                        <VBox layoutX="14.0" layoutY="199.0">
+                           <children>
+                              <Label text="Extra längdoffset" />
+                              <TextField fx:id="millPlusExtraLengthOffset" text="0.00" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="14.0" layoutY="253.0">
+                           <children>
+                              <Label text="Extra radieoffset" />
+                              <TextField fx:id="millPlusExtraRadiusOffset" text="0.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="heidenhainMachineTab" onSelectionChanged="#machineTabChanged" text="Heidenhain">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="387.0" prefWidth="408.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="93.0" text="Verktygsnr" />
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="heidToolNoTextField" promptText="1" />
+                                    <Button mnemonicParsing="false" onAction="#heidSetToOneButtonClicked" prefHeight="25.0" prefWidth="83.0" text="Sätt till 1" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox prefHeight="25.0" prefWidth="156.0" spacing="70.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#heidIncToolNo" prefWidth="39.0" text="+">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#heidDecToolNo" prefHeight="25.0" prefWidth="39.0" text="-" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="18.0" layoutY="112.0" spacing="10.0">
+                           <children>
+                              <CheckBox fx:id="heidSetRadiusToZeroCheckBox" mnemonicParsing="false" selected="true" text="Sätt radien till 0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <Button layoutX="194.0" layoutY="108.0" mnemonicParsing="false" onAction="#heidAddStartSection" prefHeight="25.0" prefWidth="92.0" text="Start" />
+                        <VBox layoutX="14.0" layoutY="199.0">
+                           <children>
+                              <Label text="Extra längdoffset" />
+                              <TextField fx:id="heidExtraLengthOffset" text="0.00" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="14.0" layoutY="253.0">
+                           <children>
+                              <Label text="Extra radieoffset" />
+                              <TextField fx:id="heidExtraRadiusOffset" text="0.0" />
+                           </children>
+                        </VBox>
+                        <Button layoutX="194.0" layoutY="161.0" mnemonicParsing="false" onAction="#heidAddEndSection" prefHeight="25.0" prefWidth="92.0" text="Avslutning" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <AnchorPane layoutX="14.0" layoutY="49.0" prefHeight="343.0" prefWidth="177.0">
@@ -116,8 +222,12 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button layoutX="611.0" layoutY="335.0" mnemonicParsing="false" onAction="#clearTextArea" prefHeight="25.0" prefWidth="142.0" text="Rensa" />
-      <Button layoutX="611.0" layoutY="367.0" mnemonicParsing="false" onAction="#removeLastReadLine" text="Ångra senaste inläsning" />
-      <Button layoutX="768.0" layoutY="335.0" mnemonicParsing="false" onAction="#saveFileAction" prefHeight="25.0" prefWidth="142.0" text="Spara" />
+      <VBox layoutX="543.0" layoutY="335.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#clearTextArea" prefHeight="25.0" prefWidth="142.0" text="Rensa" />
+            <Button mnemonicParsing="false" onAction="#removeLastReadLine" prefHeight="25.0" prefWidth="142.0" text="Ångra" />
+            <Button mnemonicParsing="false" onAction="#saveFileAction" prefHeight="25.0" prefWidth="142.0" text="Spara" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
